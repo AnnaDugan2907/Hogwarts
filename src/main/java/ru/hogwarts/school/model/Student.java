@@ -1,16 +1,12 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "students")
 public class Student {
-
 
     @Id
     @GeneratedValue
@@ -19,6 +15,12 @@ public class Student {
     private String name;
     private int strong;
     private int transgress;
+    private int age;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
 
     @Override
     public String toString() {
@@ -28,6 +30,7 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", strong=" + strong +
                 ", transgress=" + transgress +
+                ", age=" + age +
                 '}';
     }
 
@@ -35,7 +38,7 @@ public class Student {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Student student)) return false;
-        return id == student.id && strong == student.strong && transgress == student.transgress && Objects.equals(surname, student.surname) && Objects.equals(name, student.name);
+        return id == student.id && age == student.age && Objects.equals(name, student.name);
     }
 
     @Override
@@ -81,5 +84,21 @@ public class Student {
 
     public void setTransgress(int transgress) {
         this.transgress = transgress;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 }
