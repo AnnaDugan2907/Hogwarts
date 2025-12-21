@@ -28,6 +28,29 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @GetMapping //GET
+    public ResponseEntity findStudent(@RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(studentService.findByName(name));
+        }
+        return ResponseEntity.ok(studentService.getAllStudent());
+    }
+
+    @GetMapping("/getStudentByAge") //GET
+    public ResponseEntity getStudentByAgeRange(@RequestParam int minAge,
+                                               @RequestParam int maxAge) {
+        return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
+    }
+
+    @GetMapping("{id}/faculty")
+    public ResponseEntity<Faculty> getStudentFaculty(@PathVariable Long id) {
+        Student student = studentService.findStudent(id);
+        if (student == null || student.getFaculty() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(student.getFaculty());
+    }
+
     @PostMapping //POST
     public Student createStudent(@RequestBody Student student) {
         return studentService.createStudent(student);

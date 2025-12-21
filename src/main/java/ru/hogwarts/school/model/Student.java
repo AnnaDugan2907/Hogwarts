@@ -21,7 +21,6 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-
     @Override
     public String toString() {
         return "Student{" +
@@ -43,7 +42,7 @@ public class Student {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, surname, name, strong, transgress);
+        return Objects.hash(id, surname, name, strong, transgress, age);
     }
 
     public long getId() {
