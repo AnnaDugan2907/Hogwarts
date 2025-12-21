@@ -28,6 +28,28 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
+    @GetMapping("/searchNameOrColor")
+    public ResponseEntity<Collection<Faculty>> searchFaculties(@RequestParam(required = false) String name,
+                                                               @RequestParam(required = false) String color) {
+        if (name != null) {
+            return ResponseEntity.ok(facultService.findByNameIgnoreCase(name));
+        }
+        if (color != null) {
+            return ResponseEntity.ok(facultService.findByColorIgnoreCase(color));
+        }
+        return ResponseEntity.ok(null); // Возвращаем пустой список, если параметры не указаны
+
+    }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<Collection<Student>> getFacultyStudents(@PathVariable Long id) {
+        Faculty faculty = facultService.findFaculty(id);
+        if (faculty == null || faculty.getStudents() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty.getStudents());
+    }
+
     @PostMapping //POST
     public Faculty createStudent(@RequestBody Faculty faculty) {
         return facultService.createFaculty(faculty);
